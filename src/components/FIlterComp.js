@@ -37,8 +37,8 @@ function FilterComp({ setFilterData, filterData }) {
   };
 
   return (
-    <div className="w-full border rounded min-h-14 border-gray-100 shadow-lg p-2 flex flex-wrap justify-evenly md:flex-row lg:justify-between gap-4 items-center">
-      <div className="md:mr-auto">
+    <div className="w-full border rounded min-h-14 border-gray-100 shadow-lg p-2 lg:flex lg:flex-wrap lg:justify-evenly lg:flex-row grid grid-cols-1 sm:grid-cols-2 justify-items-center gap-4 items-center">
+      <div className="lg:mr-auto">
         <SearchCoin
           search={search}
           setSetsearch={setSetsearch}
@@ -59,7 +59,7 @@ function FilterComp({ setFilterData, filterData }) {
             required
             type="text"
             placeholder="Currency(inr)"
-            className="lowercase w-16 px-2 py-0.5 outline-none border-transparent focus:bg-white font-inter rounded-tl-md rounded-bl-md bg-slate-200"
+            className="lowercase lg:w-16 px-2 py-0.5 outline-none border-transparent focus:bg-white font-inter rounded-tl-md rounded-bl-md bg-slate-200"
           />
           <datalist id="keywords">
             {currencies.map((element, i) => (
@@ -97,6 +97,7 @@ function FilterComp({ setFilterData, filterData }) {
           </button>
         </form>
       </div>
+
       <div>
         <label
           htmlFor="sortBy"
@@ -142,6 +143,7 @@ function FilterComp({ setFilterData, filterData }) {
           </div>
         </label>
       </div>
+
       <div className="flex justify-center items-center">
         <button
           onClick={() => getCryptoDataCurrencyWise()}

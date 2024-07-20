@@ -44,12 +44,10 @@ const router = createBrowserRouter([
         path: "savedcoin",
         element: <SavedCoin />,
         loader: Loader,
-
         children: [
           {
-            path: "extra",
-            element: <Extra />,
-            loader: Loader,
+            path: ":coindId",
+            element: <CryptoModal />,
           },
         ],
       },

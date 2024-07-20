@@ -100,7 +100,7 @@ const Table = ({ filterData }) => {
                     <tr
                       key={data.id}
                       onClick={(e) => {
-                        navigate(`/${data.id}`, { state: { filterData } });
+                        navigate(`${data.id}`, { state: { filterData } });
                       }}
                       className="text-center text-black border-b border-gray-100 hover:bg-slate-200 last:border-b-0"
                     >
@@ -167,7 +167,7 @@ const Table = ({ filterData }) => {
                         className="py-4"
                         title={`Coin's total trading volume in selected currency (${filterData.currency})`}
                       >
-                        {data.total_volume}
+                        {currencyFormat(data.total_volume)}
                       </td>
                       <td
                         className="py-4"

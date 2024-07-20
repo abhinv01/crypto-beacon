@@ -59,6 +59,8 @@ const CryptoProvider = (props) => {
       setCryptoData(data);
     } catch (error) {
       console.log(error);
+      setCryptoDataLoading(false);
+
       setCryptoData([]);
     } finally {
       setCryptoDataLoading(false);

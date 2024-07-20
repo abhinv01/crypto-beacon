@@ -52,7 +52,7 @@ function CryptoModal() {
           <>"404 not found"</>
         ) : (
           <>
-            {console.log("coinDataaaaaaaa", coinData)}
+            {/* {console.log("coinDataaaaaaaa", coinData)} */}
             <div className="flex justify-between align-center h-full w-full p-4 relative">
               {modalDataLoading && <Loader></Loader>}
               <div className="w-5/12 px-1 py-0.5 flex flex-col h-full justify-between">

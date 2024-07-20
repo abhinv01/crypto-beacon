@@ -13,7 +13,7 @@ const Crypto = () => {
 
   const { filterData, setFilterData } = useContext(CryptoDataContext);
   return (
-    <section className="w-[80%] h-full flex flex-col mt-16 mb-24 relative">
+    <section className="lg:w-[80%] w-[95%] h-full flex flex-col mt-16 mb-24 relative">
       <FilterComp
         setFilterData={setFilterData}
         filterData={filterData}
