@@ -46,16 +46,17 @@ function CryptoModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-2/3 h-3/4 rounded-md bg-slate-300 bg-opacity-80 relative"
+        className="w-[95%] min-h-[80%] lg:w-2/3 h-3/4 rounded-md bg-slate-300 bg-opacity-80 relative overflow-y-auto"
       >
+        {modalDataLoading && <Loader></Loader>}
+
         {coinData.error ? (
           <>"404 not found"</>
         ) : (
           <>
             {/* {console.log("coinDataaaaaaaa", coinData)} */}
-            <div className="flex justify-between align-center h-full w-full p-4 relative">
-              {modalDataLoading && <Loader></Loader>}
-              <div className="w-5/12 px-1 py-0.5 flex flex-col h-full justify-between">
+            <div className="flex justify-between flex-col md:flex-row  align-center h-full w-full p-4 relative">
+              <div className="w-full md:w-5/12 px-1 py-0.5 flex flex-col h-full justify-between">
                 {/* heading */}
                 <div className="flex w-full items-center content-baseline flex-wrap">
                   <img src={coinData?.image?.small} alt=""></img>
@@ -292,7 +293,7 @@ function CryptoModal() {
               </div>
 
               {/* Charts */}
-              <div className="w-7/12 px-1 py-0.5 flex flex-col h-full">
+              <div className="w-full md:w-7/12 px-1 py-0.5 flex flex-col min-h-96">
                 <Chart
                   coinId={coinData.id}
                   currency={filterData.currency}
@@ -309,7 +310,7 @@ function CryptoModal() {
               </div>
 
               {/* social links */}
-              <div className="absolute bottom-1 right-1 flex gap-2 items-center">
+              <div className="md:absolute justify-end bottom-1 right-1 flex gap-2 items-center">
                 {coinData?.links?.repos_url?.github[0] && (
                   <a
                     href={coinData?.links?.repos_url?.github[0]}

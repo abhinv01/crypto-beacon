@@ -43,7 +43,7 @@ export const Chart = ({ coinId, currency }) => {
     async function getChartData(id, day = 7) {
       try {
         const data = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=inr&days=${day}&interval=daily&x_cg_demo_api_key=CG-nbzZ83mWQBP52AmxwJ7DN9wv`
+          `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=inr&days=${day}&interval=daily`
         )
           .then((res) => res.json())
           .then((data) => data);
@@ -124,7 +124,7 @@ export const Chart = ({ coinId, currency }) => {
   }, [coinId, currency, days]);
 
   return (
-    <div className="w-full h-[60%] my-4 flex flex-col">
+    <div className="w-full h-[95%] md:h-[60%] my-4 flex flex-col">
       <ResponsiveContainer height={"90%"}>
         <LineChart data={chartData}>
           <Line type="monotone" dataKey="prices" stroke="#212121" />
