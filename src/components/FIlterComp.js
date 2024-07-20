@@ -37,17 +37,17 @@ function FilterComp({ setFilterData, filterData }) {
   };
 
   return (
-    <div className="w-full border rounded h-14 border-gray-100 shadow-lg p-2 flex justify-between gap-4 items-center">
-      <div className="mr-auto">
+    <div className="w-full border rounded min-h-14 border-gray-100 shadow-lg p-2 flex flex-wrap justify-evenly md:flex-row lg:justify-between gap-4 items-center">
+      <div className="md:mr-auto">
         <SearchCoin
           search={search}
           setSetsearch={setSetsearch}
           setFilterData={setFilterData}
           currency={currency}
-        ></SearchCoin>
+        />
       </div>
+
       <div>
-        {" "}
         <form
           onSubmit={handleCurrencySubmit}
           className="relative flex items-center border-2 border-slate-300 rounded-md focus-within:border-emerald-400"
@@ -60,7 +60,7 @@ function FilterComp({ setFilterData, filterData }) {
             type="text"
             placeholder="Currency(inr)"
             className="lowercase w-16 px-2 py-0.5 outline-none border-transparent focus:bg-white font-inter rounded-tl-md rounded-bl-md bg-slate-200"
-          ></input>
+          />
           <datalist id="keywords">
             {currencies.map((element, i) => (
               <option key={i} value={element.currency}>
@@ -70,8 +70,7 @@ function FilterComp({ setFilterData, filterData }) {
           </datalist>
           <button
             type="submit"
-            className="border-emerald-400 active:bg-gray-100 py-0.5 px-1 bg-slate-200 rounded-tr-md rounded-br-md "
-            // onSubmit={handleSearch}
+            className="border-emerald-400 active:bg-gray-100 py-0.5 px-1 bg-slate-200 rounded-tr-md rounded-br-md"
           >
             <svg
               className="fill-emerald-400 w-4 h-6 overflow-hidden stroke-emerald-400 stroke-2"
@@ -101,26 +100,26 @@ function FilterComp({ setFilterData, filterData }) {
       <div>
         <label
           htmlFor="sortBy"
-          className="bg-slate-200 relative flex items-center border-2 border-slate-300 rounded-md pl-1 group focus-within:border-emerald-500 "
+          className="bg-slate-200 relative flex items-center border-2 border-slate-300 rounded-md pl-1 group focus-within:border-emerald-500"
         >
           <span className="font-bold mr-2 text-sm text-gray-100 group-focus-within:text-emerald-400">
             Sort by:
           </span>
           <style>
             {`
-          select::-ms-expand {
-            display: none;
-          }
-
-          select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-          }
-        `}
+            select::-ms-expand {
+              display: none;
+            }
+  
+            select {
+              -webkit-appearance: none;
+              -moz-appearance: none;
+              appearance: none;
+            }
+          `}
           </style>
           <select
-            className="rounded text-base  pl-2 pr-10 py-0.5 capitalize outline-0 bg-slate-200 focus:bg-white"
+            className="rounded text-base pl-2 pr-10 py-0.5 capitalize outline-0 bg-slate-200 focus:bg-white"
             id="sortBy"
             value={sortBy}
             onChange={handleSortBy}
@@ -134,7 +133,7 @@ function FilterComp({ setFilterData, filterData }) {
           </select>
           <div className="custom-arrow pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg
-              className="h-6 w-6 text-gray-500 fill-emerald-400 "
+              className="h-6 w-6 text-gray-500 fill-emerald-400"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -142,6 +141,22 @@ function FilterComp({ setFilterData, filterData }) {
             </svg>
           </div>
         </label>
+      </div>
+      <div className="flex justify-center items-center">
+        <button
+          onClick={() => getCryptoDataCurrencyWise()}
+          className="border-2 border-slate-300 bg-slate-200 rounded-full active:bg-gray-100"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            className="fill-emerald-500 "
+          >
+            <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+          </svg>
+        </button>
       </div>
     </div>
   );

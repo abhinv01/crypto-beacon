@@ -10,6 +10,7 @@ import Trending from "./pages/Trending";
 import SavedCoin from "./pages/SavedCoin";
 import Extra from "./pages/Extra";
 import Loader from "./components/Loader";
+import CryptoModal from "./components/CryptoModal";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +22,23 @@ const router = createBrowserRouter([
         path: "/",
         element: <Crypto />,
         loader: Loader,
+        children: [
+          {
+            path: ":coindId",
+            element: <CryptoModal />,
+          },
+        ],
       },
       {
         path: "trending",
         element: <Trending />,
         loader: Loader,
+        children: [
+          {
+            path: ":coindId",
+            element: <CryptoModal />,
+          },
+        ],
       },
       {
         path: "savedcoin",
@@ -45,9 +58,9 @@ const router = createBrowserRouter([
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <RouterProvider router={router} />
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

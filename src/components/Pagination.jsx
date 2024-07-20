@@ -1,11 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CryptoDataContext } from "../context/CryptoData";
 
 function Pagination({ filterData }) {
   const { getCryptoDataForPage, lastPage } = useContext(CryptoDataContext);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [last] = useState(Math.ceil(lastPage / 10));
+  const [last, setLast] = useState(Math.ceil(lastPage / 10));
+
+  useEffect(() => {
+    setLast(Math.ceil(lastPage / 10));
+  }, [lastPage]);
 
   const nextPage = async () => {
     if (currentPage < last) {
@@ -76,40 +80,46 @@ function Pagination({ filterData }) {
   return (
     <div className="ml-auto flex items-center font-inter">
       <ul className="flex">
-        <li className="bg-slate-400 mx-1 rounded-sm text-gray-200 hover:text-white active:bg-emerald-500 h-6">
-          <button
-            onClick={firstPage}
-            className="px-1.5 flex items-center justify-center leading-none w-full h-full"
-          >
-            1
-          </button>
-        </li>
-        <li className="bg-slate-400 mx-1 rounded-sm text-gray-200 hover:text-white active:bg-emerald-500 h-6">
-          <button
-            onClick={subtractThreePage}
-            className="px-1.5 flex items-center justify-center leading-none w-full h-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              className="-rotate-90 hover:fill-white"
+        {currentPage > 2 ? (
+          <li className="bg-slate-600 mx-1 rounded-sm text-slate-100 hover:text-emerald-400 active:bg-emerald-500 h-6">
+            <button
+              onClick={firstPage}
+              className="px-1.5 flex items-center justify-center leading-none w-full h-full"
             >
-              <g>
-                <polygon points="12 6.414 19.293 13.707 20.707 12.293 12 3.586 3.293 12.293 4.707 13.707 12 6.414" />
-                <polygon points="3.293 18.293 4.707 19.707 12 12.414 19.293 19.707 20.707 18.293 12 9.586 3.293 18.293" />
-              </g>
-            </svg>
-          </button>
-        </li>
-        <li className="bg-slate-400 mx-1 rounded-full text-gray-200 hover:text-white active:bg-emerald-500">
-          <button className="min-w-6 px-0.5" onClick={previousPage}>
-            {currentPage - 1}
-          </button>
-        </li>
+              1
+            </button>
+          </li>
+        ) : null}
+        {currentPage - 2 > 1 ? (
+          <li className="bg-slate-400 mx-1 rounded-sm text-gray-200 hover:text-white active:bg-emerald-500 h-6">
+            <button
+              onClick={subtractThreePage}
+              className="px-1.5 flex items-center justify-center leading-none w-full h-full"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                className="-rotate-90 hover:fill-white"
+              >
+                <g>
+                  <polygon points="12 6.414 19.293 13.707 20.707 12.293 12 3.586 3.293 12.293 4.707 13.707 12 6.414" />
+                  <polygon points="3.293 18.293 4.707 19.707 12 12.414 19.293 19.707 20.707 18.293 12 9.586 3.293 18.293" />
+                </g>
+              </svg>
+            </button>
+          </li>
+        ) : null}
+        {currentPage > 1 ? (
+          <li className="bg-slate-400 mx-1 rounded-full text-gray-200 hover:text-white active:bg-emerald-500">
+            <button className="min-w-6 px-0.5" onClick={previousPage}>
+              {currentPage - 1}
+            </button>
+          </li>
+        ) : null}
         <li className="bg-emerald-500 mx-1 rounded-full text-white">
-          <button className="min-w-6 px-0.5">{currentPage}</button>
+          <div className="min-w-6 px-0.5 text-center">{currentPage}</div>
           {/* <input
             value={2}
             required
@@ -118,38 +128,44 @@ function Pagination({ filterData }) {
             className="lowercase w-16 px-2 py-0.5 outline-none border-transparent focus:bg-white font-inter rounded-tl-md rounded-bl-md bg-slate-200"
           ></input> */}
         </li>
-        <li className="bg-slate-400 mx-1 rounded-full text-gray-200 hover:text-white active:bg-emerald-500">
-          <button className="min-w-6 px-0.5" onClick={nextPage}>
-            {currentPage + 1}
-          </button>
-        </li>
-        <li className="bg-slate-400 mx-1 rounded-sm text-gray-200 hover:text-white active:bg-emerald-500 h-6">
-          <button
-            onClick={addThreePage}
-            className="px-1.5 flex items-center justify-center leading-none w-full h-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              className="rotate-90 hover:fill-white"
+        {currentPage + 1 > last ? null : (
+          <li className="bg-slate-400 mx-1 rounded-full text-gray-200 hover:text-white active:bg-emerald-500">
+            <button className="min-w-6 px-0.5" onClick={nextPage}>
+              {currentPage + 1}
+            </button>
+          </li>
+        )}
+        {currentPage + 2 > last ? null : (
+          <li className="bg-slate-400 mx-1 rounded-sm text-gray-200 hover:text-white active:bg-emerald-500 h-6">
+            <button
+              onClick={addThreePage}
+              className="px-1.5 flex items-center justify-center leading-none w-full h-full"
             >
-              <g>
-                <polygon points="12 6.414 19.293 13.707 20.707 12.293 12 3.586 3.293 12.293 4.707 13.707 12 6.414" />
-                <polygon points="3.293 18.293 4.707 19.707 12 12.414 19.293 19.707 20.707 18.293 12 9.586 3.293 18.293" />
-              </g>
-            </svg>
-          </button>
-        </li>
-        <li className="bg-slate-400 mx-1 rounded-sm text-gray-200 hover:text-white active:bg-emerald-500 h-6">
-          <button
-            onClick={getLastPage}
-            className="px-1.5 flex items-center justify-center leading-none w-full h-full"
-          >
-            {last}
-          </button>
-        </li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                className="rotate-90 hover:fill-white"
+              >
+                <g>
+                  <polygon points="12 6.414 19.293 13.707 20.707 12.293 12 3.586 3.293 12.293 4.707 13.707 12 6.414" />
+                  <polygon points="3.293 18.293 4.707 19.707 12 12.414 19.293 19.707 20.707 18.293 12 9.586 3.293 18.293" />
+                </g>
+              </svg>
+            </button>
+          </li>
+        )}
+        {currentPage >= last ? null : (
+          <li className="bg-slate-600 mx-1 rounded-sm text-slate-100 hover:text-emerald-400 active:bg-emerald-500 h-6">
+            <button
+              onClick={getLastPage}
+              className="px-1.5 flex items-center justify-center leading-none w-full h-full"
+            >
+              {last}
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );

@@ -18,9 +18,17 @@ const CryptoDataContext = createContext({});
 
 const CryptoProvider = (props) => {
   const [cryptoData, setCryptoData] = useState([]);
+  const [coinData, setCoinData] = useState({});
   const [cryptoSearchData, setCryptoSearchData] = useState([]);
   const [error, setError] = useState({ error: "" });
   const [lastPage, setLastPage] = useState(100);
+  const [cryptoDataLoading, setCryptoDataLoading] = useState(false);
+  const [filterData, setFilterData] = useState({
+    currency: "inr",
+    search: "",
+    sortBy: "market_cap_desc",
+  });
+  const [modalDataLoading, setModalDataLoading] = useState(false);
 
   useLayoutEffect(() => {
     async function getLastPage() {
@@ -28,7 +36,6 @@ const CryptoProvider = (props) => {
         const data = await fetch(`https://api.coingecko.com/api/v3/coins/list`)
           .then((res) => res.json())
           .then((data) => data);
-        console.log("data", data);
         setLastPage(data.length);
       } catch (error) {
         console.log(error);
@@ -36,27 +43,31 @@ const CryptoProvider = (props) => {
       }
     }
     getLastPage();
-  }, []);
+  }, [lastPage]);
 
   const getCryptoData = async () => {
     try {
+      setCryptoDataLoading(true);
       const data = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h`
       )
         .then((res) => res.json())
         .then((data) => data);
-      console.log(data);
+      // console.log(data);
       if (data.error) setError((prev) => ({ ...prev, ...data }));
       else setError({ error: "" });
       setCryptoData(data);
     } catch (error) {
       console.log(error);
       setCryptoData([]);
+    } finally {
+      setCryptoDataLoading(false);
     }
   };
 
   const getCryptoDataForPage = async (page, currency, coinId = "", sortBy) => {
     try {
+      setCryptoDataLoading(true);
       const data = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${coinId}&order=${sortBy}&per_page=10&page=${page}&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h`
       )
@@ -69,11 +80,15 @@ const CryptoProvider = (props) => {
     } catch (error) {
       console.log(error);
       setCryptoData([]);
+    } finally {
+      setCryptoDataLoading(false);
     }
   };
 
   const getCryptoDataForSelectedCoin = async (currency, coinId) => {
     try {
+      setCryptoDataLoading(true);
+
       const data = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${coinId}&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h`
       )
@@ -84,11 +99,15 @@ const CryptoProvider = (props) => {
     } catch (error) {
       console.log(error);
       setCryptoData([]);
+    } finally {
+      setCryptoDataLoading(false);
     }
   };
 
-  const getCryptoDataCurrencyWise = async (currency, search = "") => {
+  const getCryptoDataCurrencyWise = async (currency = "inr", search = "") => {
     try {
+      setCryptoDataLoading(true);
+
       const data = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${search}&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h`
       )
@@ -101,11 +120,15 @@ const CryptoProvider = (props) => {
     } catch (error) {
       console.log(error);
       setCryptoData([]);
+    } finally {
+      setCryptoDataLoading(false);
     }
   };
 
   const getCryptoDataToSort = async (currency, sortBy) => {
     try {
+      setCryptoDataLoading(true);
+
       const data = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=${sortBy}&per_page=10&page=1&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h`
       )
@@ -116,11 +139,15 @@ const CryptoProvider = (props) => {
     } catch (error) {
       console.log(error);
       setCryptoData([]);
+    } finally {
+      setCryptoDataLoading(false);
     }
   };
 
   const getCryptoSearchData = async (searchQuery) => {
     try {
+      // setCryptoDataLoading(true);
+
       const data = await fetch(
         `https://api.coingecko.com/api/v3/search?query=${searchQuery}`
       )
@@ -143,6 +170,27 @@ const CryptoProvider = (props) => {
         ]);
     } catch (error) {
       console.log(error);
+    } finally {
+      // setCryptoDataLoading(false);
+    }
+  };
+
+  const getCoinData = async (coinIdFromUrl) => {
+    try {
+      setModalDataLoading(true);
+      const data = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${coinIdFromUrl}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=false`
+      )
+        .then((res) => res.json())
+        .then((data) => data);
+      // console.log(data);
+      setCoinData(data);
+    } catch (error) {
+      console.log(error);
+      setCoinData({});
+      setModalDataLoading(false);
+    } finally {
+      setModalDataLoading(false);
     }
   };
 
@@ -160,8 +208,14 @@ const CryptoProvider = (props) => {
         getCryptoDataCurrencyWise,
         getCryptoDataToSort,
         getCryptoDataForPage,
+        getCoinData,
         error,
         lastPage,
+        cryptoDataLoading,
+        coinData,
+        setFilterData,
+        filterData,
+        modalDataLoading,
       }}
     >
       {props.children}
