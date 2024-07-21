@@ -16,7 +16,7 @@ function CryptoModal() {
 
   const { filterData } = useContext(CryptoDataContext);
 
-  console.log(filterData);
+  // console.log(filterData);
   const closeModal = () => {
     navigate("..");
   };

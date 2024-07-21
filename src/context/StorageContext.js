@@ -20,11 +20,13 @@ const StorageProvider = (props) => {
       const data = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${totalCoins.join(
           ","
-        )}&order=${sortBy}&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h`
+        )}&order=${sortBy}&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h&x_cg_demo_api_key=${
+          process.env.REACT_APP_COIN_API
+        }`
       )
         .then((res) => res.json())
         .then((data) => data);
-      console.log(data);
+      // console.log(data);
       if (data.error) setErrorSaved((prev) => ({ ...prev, ...data }));
       else setErrorSaved({ error: "" });
       setSavedCoinsData(data);

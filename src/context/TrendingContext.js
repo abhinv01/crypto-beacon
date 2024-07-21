@@ -14,7 +14,7 @@ const TrendingProvider = (props) => {
       )
         .then((res) => res.json())
         .then((data) => data);
-      console.log(data);
+      // console.log(data);
       setTrendingCoin(data.coins);
     } catch (error) {
       console.log(error);

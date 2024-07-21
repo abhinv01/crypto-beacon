@@ -38,14 +38,19 @@ function CustomTooltip({ payload, label, active, currency }) {
 export const Chart = ({ coinId, currency }) => {
   const [chartData, setChartData] = useState({});
   const [days, setDays] = useState(7);
+  const [chartServerError, setChartServerError] = useState(false);
 
   useLayoutEffect(() => {
     async function getChartData(id, day = 7) {
       try {
         const data = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=inr&days=${day}&interval=daily`
+          `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=inr&days=${day}&interval=daily&x_cg_demo_api_key=${process.env.REACT_APP_COIN_API}`
         )
-          .then((res) => res.json())
+          .then((res) => {
+            if (res.status !== 200) setChartServerError(true);
+            else setChartServerError(false);
+            return res.json();
+          })
           .then((data) => data);
 
         // const data = {
@@ -104,17 +109,17 @@ export const Chart = ({ coinId, currency }) => {
         //     [1721369112000, 2219273567444.8887],
         //   ],
         // };
-        console.log("chartdata", data);
+        // console.log("chartdata", data);
         const options = { day: "2-digit", month: "short", year: "numeric" };
 
         let mappedData = data?.prices.map((item) => ({
           date: new Date(item[0]).toLocaleDateString("en-GB", options),
           prices: item[1],
         }));
-        console.log(mappedData);
+        // console.log(mappedData);
         setChartData(mappedData);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         setChartData([]);
       } finally {
       }
@@ -124,60 +129,67 @@ export const Chart = ({ coinId, currency }) => {
   }, [coinId, currency, days]);
 
   return (
-    <div className="w-full h-[95%] md:h-[60%] my-4 flex flex-col">
-      <ResponsiveContainer height={"90%"}>
-        <LineChart data={chartData}>
-          <Line type="monotone" dataKey="prices" stroke="#212121" />
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis domain={["auto", "auto"]} />
-          <Tooltip content={<CustomTooltip />} currency={currency} />
-          <Legend />
-        </LineChart>
-      </ResponsiveContainer>
-      <div className="flex row justify-center gap-3">
-        <button
-          className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
-            days === 7 ? "bg-opacity-55" : "bg-opacity-15"
-          }`}
-          // style={{ backgroundColor: days === 7 ? "rgba(33,33,33,0.5)" : "" }}
-          onClick={() => setDays(7)}
-        >
-          7 days
-        </button>
-        <button
-          className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
-            days === 15 ? "bg-opacity-55" : "bg-opacity-15"
-          }`} // style={{ backgroundColor: days === 15 ? "rgba(33,33,33,0.5)" : "" }}
-          onClick={() => setDays(15)}
-        >
-          15 days
-        </button>{" "}
-        <button
-          className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
-            days === 30 ? "bg-opacity-55" : "bg-opacity-15"
-          }`} // style={{ backgroundColor: days === 30 ? "rgba(33,33,33,0.5)" : "" }}
-          onClick={() => setDays(30)}
-        >
-          30 days
-        </button>
-        <button
-          className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
-            days === 180 ? "bg-opacity-55" : "bg-opacity-15"
-          }`} // style={{ backgroundColor: days === 30 ? "rgba(33,33,33,0.5)" : "" }}
-          onClick={() => setDays(180)}
-        >
-          6 months
-        </button>
-        <button
-          className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
-            days === 365 ? "bg-opacity-55" : "bg-opacity-15"
-          }`} // style={{ backgroundColor: days === 30 ? "rgba(33,33,33,0.5)" : "" }}
-          onClick={() => setDays(365)}
-        >
-          1 year
-        </button>
-      </div>
-    </div>
+    <>
+      {chartServerError && (
+        <div className="text-red text-md animate-bounce">
+          Server Error try later
+        </div>
+      )}
+      <div className="w-full h-[95%] md:h-[60%] my-4 flex flex-col">
+        <ResponsiveContainer height={"90%"}>
+          <LineChart data={chartData}>
+            <Line type="monotone" dataKey="prices" stroke="#212121" />
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis domain={["auto", "auto"]} />
+            <Tooltip content={<CustomTooltip />} currency={currency} />
+            <Legend />
+          </LineChart>
+        </ResponsiveContainer>
+        <div className="flex row justify-center gap-3">
+          <button
+            className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
+              days === 7 ? "bg-opacity-55" : "bg-opacity-15"
+            }`}
+            // style={{ backgroundColor: days === 7 ? "rgba(33,33,33,0.5)" : "" }}
+            onClick={() => setDays(7)}
+          >
+            7 days
+          </button>
+          <button
+            className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
+              days === 15 ? "bg-opacity-55" : "bg-opacity-15"
+            }`} // style={{ backgroundColor: days === 15 ? "rgba(33,33,33,0.5)" : "" }}
+            onClick={() => setDays(15)}
+          >
+            15 days
+          </button>{" "}
+          <button
+            className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
+              days === 30 ? "bg-opacity-55" : "bg-opacity-15"
+            }`} // style={{ backgroundColor: days === 30 ? "rgba(33,33,33,0.5)" : "" }}
+            onClick={() => setDays(30)}
+          >
+            30 days
+          </button>
+          <button
+            className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
+              days === 180 ? "bg-opacity-55" : "bg-opacity-15"
+            }`} // style={{ backgroundColor: days === 30 ? "rgba(33,33,33,0.5)" : "" }}
+            onClick={() => setDays(180)}
+          >
+            6 months
+          </button>
+          <button
+            className={`px-2 py-1 bg-gray-300 rounded-sm active:bg-white  ${
+              days === 365 ? "bg-opacity-55" : "bg-opacity-15"
+            }`} // style={{ backgroundColor: days === 30 ? "rgba(33,33,33,0.5)" : "" }}
+            onClick={() => setDays(365)}
+          >
+            1 year
+          </button>
+        </div>
+      </div>{" "}
+    </>
   );
 };

@@ -245,7 +245,7 @@ const SavedCoin = () => {
           {savedCoinsData?.length === 0 && (
             <div className="text-center font-montserat font-medium  text-slate-400">
               {" "}
-              ⛔No saved Coins
+              ⛔No saved Coins (Refresh to verify)
             </div>
           )}
         </div>

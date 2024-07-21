@@ -21,20 +21,25 @@ const CryptoProvider = (props) => {
   const [coinData, setCoinData] = useState({});
   const [cryptoSearchData, setCryptoSearchData] = useState([]);
   const [error, setError] = useState({ error: "" });
-  const [lastPage, setLastPage] = useState(100);
+  const [lastPage, setLastPage] = useState(14899);
   const [cryptoDataLoading, setCryptoDataLoading] = useState(false);
   const [filterData, setFilterData] = useState({
     currency: "inr",
     search: "",
     sortBy: "market_cap_desc",
   });
+  const [serverError, setServerError] = useState(false);
   const [modalDataLoading, setModalDataLoading] = useState(false);
 
   useLayoutEffect(() => {
     async function getLastPage() {
       try {
         const data = await fetch(`https://api.coingecko.com/api/v3/coins/list`)
-          .then((res) => res.json())
+          .then((res) => {
+            if (res.status !== 200) setServerError(true);
+            else setServerError(false);
+            return res.json();
+          })
           .then((data) => data);
         setLastPage(data.length);
       } catch (error) {
@@ -49,9 +54,13 @@ const CryptoProvider = (props) => {
     try {
       setCryptoDataLoading(true);
       const data = await fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1y%2C7d%2C24h%2C1h&x_cg_demo_api_key=${process.env.REACT_APP_COIN_API}`
       )
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.status !== 200) setServerError(true);
+          else setServerError(false);
+          return res.json();
+        })
         .then((data) => data);
       // console.log(data);
       if (data.error) setError((prev) => ({ ...prev, ...data }));
@@ -218,6 +227,7 @@ const CryptoProvider = (props) => {
         setFilterData,
         filterData,
         modalDataLoading,
+        serverError,
       }}
     >
       {props.children}
