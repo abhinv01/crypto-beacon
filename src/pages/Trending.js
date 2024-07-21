@@ -10,7 +10,7 @@ const Trending = () => {
 
   console.log(trendingCoin, trendLoading);
   return (
-    <section className="w-[95%] md:w-[80%] h-full flex flex-col mt-16 mb-24 relative">
+    <section className="w-[95%] md:w-[80%] h-full flex flex-col mt-16 mb-16 lg:mb-24 relative">
       {trendLoading && <Loader></Loader>}
       <div className="flex justify-center items-center absolute right-1/2 translate-x-1/2 top-5">
         <button

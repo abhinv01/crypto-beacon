@@ -42,7 +42,7 @@ const SavedCoin = () => {
     }
   };
   return (
-    <section className="w-[95%] md:w-[80%] h-full flex flex-col mt-16 mb-24 relative">
+    <section className="w-[95%] md:w-[80%] h-full flex flex-col mt-16 mb-16 lg:mb-24 relative">
       <div className="flex justify-center items-center absolute right-1/2 translate-x-1/2 top-0">
         <button
           onClick={resetStorage}
