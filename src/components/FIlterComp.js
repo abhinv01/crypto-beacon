@@ -38,7 +38,7 @@ function FilterComp({ setFilterData, filterData }) {
 
   return (
     <div className="w-full border rounded min-h-14 border-gray-100 shadow-lg p-2 lg:flex lg:flex-wrap lg:justify-evenly lg:flex-row grid grid-cols-1 sm:grid-cols-2 justify-items-center gap-4 items-center">
-      <div className="lg:mr-auto">
+      <div className="lg:mr-auto relative">
         <SearchCoin
           search={search}
           setSetsearch={setSetsearch}
@@ -120,7 +120,7 @@ function FilterComp({ setFilterData, filterData }) {
           `}
           </style>
           <select
-            className="rounded text-base pl-2 pr-10 py-0.5 capitalize outline-0 bg-slate-200 focus:bg-white"
+            className="rounded text-base pl-4 pr-10 py-0.5 capitalize outline-0 bg-slate-200 focus:bg-white"
             id="sortBy"
             value={sortBy}
             onChange={handleSortBy}
@@ -144,7 +144,7 @@ function FilterComp({ setFilterData, filterData }) {
         </label>
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="hidden lg:flex justify-center items-center">
         <button
           onClick={() => getCryptoDataCurrencyWise()}
           className="border-2 border-slate-300 bg-slate-200 rounded-full active:bg-gray-100"
@@ -155,6 +155,24 @@ function FilterComp({ setFilterData, filterData }) {
             width="24"
             height="24"
             className="fill-emerald-500 "
+          >
+            <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="lg:hidden justify-center items-center">
+        <button
+          onClick={() => getCryptoDataCurrencyWise()}
+          className="border-2 border-slate-300 bg-slate-200 rounded-md py-0.5 min-w-[255px] active:bg-gray-100"
+        >
+          Refresh data
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            className="fill-emerald-500 inline-block"
           >
             <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
           </svg>

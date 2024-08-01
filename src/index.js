@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Crypto from "./pages/Crypto";
 import Trending from "./pages/Trending";
 import SavedCoin from "./pages/SavedCoin";
-import Extra from "./pages/Extra";
+// import Extra from "./pages/Extra";
 import Loader from "./components/Loader";
 import CryptoModal from "./components/CryptoModal";
 

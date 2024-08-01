@@ -77,7 +77,7 @@ const SearchCoin = ({ search, setSetsearch, currency, setFilterData }) => {
       </form>
 
       {search.length > 0 ? (
-        <ul className="absolute top-20 left-0 w-9/12 max-h-80 bg-opacity-50 bg-slate-500 backdrop-blur-md rounded overflow-x-hidden p-2 z-10">
+        <ul className="absolute top-8 left-0 w-full max-h-80 bg-opacity-50 bg-slate-500 backdrop-blur-md rounded overflow-x-hidden p-2 z-10">
           {cryptoSearchData.length > 0 ? (
             cryptoSearchData.map((element) => {
               return (
